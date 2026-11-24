@@ -1,0 +1,433 @@
+/* CSS Reset & Global Styling */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #f8fafc;
+    color: #0f172a;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* 1. Navbar */
+.navbar {
+    width: 100%;
+    background-color: #0f172a;
+    border-bottom: 1px solid #1e293b;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.navbar-container {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 14px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #ffffff;
+    font-size: 1.2rem;
+    font-weight: 700;
+    text-decoration: none;
+    letter-spacing: -0.3px;
+}
+
+.brand-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    background-color: #2563eb;
+    color: #ffffff;
+    font-size: 0.8rem;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.navbar-menu {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.nav-link {
+    color: #94a3b8;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: color 0.15s;
+}
+
+.nav-link:hover {
+    color: #ffffff;
+}
+
+.nav-btn-add {
+    background-color: #2563eb;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 7px 14px;
+    border-radius: 6px;
+    transition: background-color 0.15s;
+}
+
+.nav-btn-add:hover {
+    background-color: #1d4ed8;
+}
+
+/* 2. Page Layout */
+.main-wrapper {
+    width: 100%;
+    padding: 32px 16px 60px 16px;
+}
+
+.container {
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+/* 3. Header Section */
+.header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.page-title {
+    font-size: 1.65rem;
+    font-weight: 700;
+    color: #0f172a;
+    letter-spacing: -0.5px;
+}
+
+.page-subtitle {
+    font-size: 0.88rem;
+    color: #64748b;
+    margin-top: 2px;
+}
+
+/* 4. Task List & Items */
+.task-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.task-card {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 16px 18px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.task-card:hover {
+    border-color: #cbd5e1;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
+}
+
+.task-card.task-done {
+    background-color: #f8fafc;
+    border-color: #e2e8f0;
+}
+
+/* Checkbox (Left) */
+.checkbox-circle {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 2px solid #cbd5e1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 0.72rem;
+    font-weight: bold;
+    margin-top: 2px;
+    flex-shrink: 0;
+    transition: all 0.15s ease;
+}
+
+.checkbox-circle:hover {
+    border-color: #2563eb;
+    background-color: #eff6ff;
+}
+
+.checkbox-circle.checked {
+    background-color: #10b981;
+    border-color: #10b981;
+}
+
+/* Task Info (Middle - Left Aligned!) */
+.task-info {
+    flex: 1;
+    min-width: 0;
+    text-align: left;
+}
+
+.task-title {
+    font-size: 1.02rem;
+    font-weight: 600;
+    color: #0f172a;
+    line-height: 1.4;
+    word-break: break-word;
+}
+
+.task-card.task-done .task-title {
+    text-decoration: line-through;
+    color: #94a3b8;
+}
+
+.task-desc {
+    font-size: 0.9rem;
+    color: #475569;
+    margin-top: 4px;
+    line-height: 1.4;
+    word-break: break-word;
+}
+
+.task-card.task-done .task-desc {
+    text-decoration: line-through;
+    color: #cbd5e1;
+}
+
+.task-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 8px;
+}
+
+.meta-time {
+    font-size: 0.78rem;
+    color: #64748b;
+    font-weight: 500;
+}
+
+.badge-done {
+    font-size: 0.72rem;
+    background-color: #d1fae5;
+    color: #065f46;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-weight: 600;
+}
+
+/* Actions (Right) */
+.task-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.action-btn {
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    transition: background-color 0.15s;
+}
+
+.action-btn:hover {
+    background-color: #f1f5f9;
+}
+
+.delete-btn:hover {
+    background-color: #fee2e2;
+}
+
+/* 5. Buttons */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 7px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.15s ease;
+}
+
+.btn-primary {
+    background-color: #2563eb;
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    background-color: #1d4ed8;
+}
+
+.btn-secondary {
+    background-color: #f1f5f9;
+    color: #334155;
+    border: 1px solid #e2e8f0;
+}
+
+.btn-secondary:hover {
+    background-color: #e2e8f0;
+    color: #0f172a;
+}
+
+/* 6. Form Card (Add & Update Pages) */
+.form-card {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 28px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.back-link {
+    display: inline-block;
+    color: #2563eb;
+    font-size: 0.88rem;
+    font-weight: 500;
+    text-decoration: none;
+    margin-bottom: 14px;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
+
+.form-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.form-subtitle {
+    font-size: 0.9rem;
+    color: #64748b;
+    margin-top: 3px;
+    margin-bottom: 22px;
+}
+
+.task-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-group label {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #334155;
+}
+
+.required {
+    color: #ef4444;
+}
+
+input[type="text"], textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    color: #0f172a;
+    background-color: #ffffff;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    font-family: inherit;
+}
+
+input[type="text"]:focus, textarea:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 90px;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding-top: 14px;
+    border-top: 1px solid #f1f5f9;
+}
+
+/* 7. Empty State */
+.empty-state {
+    text-align: center;
+    background-color: #ffffff;
+    border: 2px dashed #cbd5e1;
+    border-radius: 12px;
+    padding: 48px 24px;
+}
+
+.empty-icon {
+    font-size: 2.5rem;
+    margin-bottom: 12px;
+}
+
+.empty-state h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 4px;
+}
+
+.empty-state p {
+    font-size: 0.92rem;
+    color: #64748b;
+    margin-bottom: 18px;
+}
+
+/* 8. Mobile Responsiveness */
+@media (max-width: 640px) {
+    .main-wrapper {
+        padding: 20px 12px;
+    }
+    .header-section {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+    .header-section .btn {
+        width: 100%;
+    }
+    .form-card {
+        padding: 20px 16px;
+    }
+}
