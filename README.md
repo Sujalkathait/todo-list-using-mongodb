@@ -3,6 +3,7 @@
 A full-stack Todo List web application built with **Node.js**, **EJS**, and **MongoDB Atlas**, configured for serverless deployment on **Cloudflare Workers** (with Workers Static Assets) and **Vercel**.
 
 **Live Demo:** [https://dozylist.sujalkathait.workers.dev/](https://dozylist.sujalkathait.workers.dev/)
+  live demo:https://dozylist.vercel.app
 
 ---
 
