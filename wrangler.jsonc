@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
-  "name": "todo-list-app",
+  "name": "dozylist",
   "main": "src/worker.js",
   "compatibility_date": "2026-11-25",
   "compatibility_flags": [
