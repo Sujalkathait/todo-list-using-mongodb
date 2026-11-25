@@ -3,70 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Tasks - TodoApp</title>
-    <link rel="stylesheet" href="/style.css?v=3">
+    <title>Tasks — Dozy</title>
+    <link rel="stylesheet" href="/style.css?v=4">
 </head>
 <body>
     <%- include('navbar') %>
 
-    <div class="main-wrapper">
+    <main class="page">
         <div class="container">
-            <!-- Header Section -->
-            <div class="header-section">
+            <div class="page-head">
                 <div>
-                    <h1 class="page-title">My Tasks</h1>
-                    <p class="page-subtitle"><%= tasks.length %> <%= tasks.length === 1 ? 'task' : 'tasks' %> in total</p>
+                    <h1 class="page-title">Tasks</h1>
+                    <p class="page-meta">
+                        <% const openCount = tasks.filter(t => !t.completed).length; %>
+                        <% const doneCount = tasks.length - openCount; %>
+                        <span><%= openCount %> open</span>
+                        <% if (doneCount > 0) { %>
+                            <span class="dot" aria-hidden="true">·</span>
+                            <span><%= doneCount %> done</span>
+                        <% } %>
+                    </p>
                 </div>
-                <a href="/add" class="btn btn-primary">+ New Task</a>
             </div>
 
-            <!-- Task List -->
             <% if (tasks && tasks.length > 0) { %>
                 <ul class="task-list">
                     <% tasks.forEach(item => { %>
-                        <li class="task-card <%= item.completed ? 'task-done' : '' %>">
-                            <!-- Left: Checkbox -->
-                            <a href="/toggle/<%= item._id %>" class="checkbox-circle <%= item.completed ? 'checked' : '' %>" title="Toggle complete">
+                        <li class="task-row <%= item.completed ? 'is-done' : '' %>">
+                            <a href="/toggle/<%= item._id %>" class="check-btn <%= item.completed ? 'is-checked' : '' %>" aria-label="<%= item.completed ? 'Mark as incomplete' : 'Mark as complete' %>">
                                 <% if (item.completed) { %>
-                                    <span>✓</span>
+                                    <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                        <path d="M3.5 8.5L6.5 11.5L12.5 4.5"/>
+                                    </svg>
                                 <% } %>
                             </a>
 
-                            <!-- Middle: Task Details -->
-                            <div class="task-info">
-                                <h3 class="task-title"><%= item.task %></h3>
+                            <div class="task-content">
+                                <div class="task-title"><%= item.task %></div>
                                 <% if (item.description && item.description.trim() !== '') { %>
-                                    <p class="task-desc"><%= item.description %></p>
+                                    <p class="task-notes"><%= item.description %></p>
                                 <% } %>
-                                <div class="task-meta">
-                                    <% if (item.createdAt) { %>
-                                        <span class="meta-time">
-                                            🕒 <%= new Date(item.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) %>
-                                        </span>
-                                    <% } %>
-                                    <% if (item.completed) { %>
-                                        <span class="badge-done">Completed</span>
-                                    <% } %>
-                                </div>
+                                <% if (item.createdAt) { %>
+                                    <div class="task-footer">
+                                        <time class="task-date" datetime="<%= new Date(item.createdAt).toISOString() %>">
+                                            <%= new Date(item.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) %>
+                                        </time>
+                                        <% if (item.completed) { %>
+                                            <span class="status-tag">Done</span>
+                                        <% } %>
+                                    </div>
+                                <% } %>
                             </div>
 
-                            <!-- Right: Actions -->
-                            <div class="task-actions">
-                                <a href="/update/<%= item._id %>" class="action-btn edit-btn" title="Edit Task">✏️</a>
-                                <a href="/delete/<%= item._id %>" class="action-btn delete-btn" onclick="return confirm('Are you sure you want to delete this task?')" title="Delete Task">🗑️</a>
+                            <div class="row-actions">
+                                <a href="/update/<%= item._id %>" class="icon-btn" aria-label="Edit task" title="Edit">
+                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                        <path d="M12 20h9"/>
+                                        <path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+                                    </svg>
+                                </a>
+                                <a href="/delete/<%= item._id %>" class="icon-btn icon-btn-danger" onclick="return confirm('Delete this task?')" aria-label="Delete task" title="Delete">
+                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                        <path d="M3 6h18"/>
+                                        <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                                        <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
+                                    </svg>
+                                </a>
                             </div>
                         </li>
                     <% }) %>
                 </ul>
             <% } else { %>
-                <div class="empty-state">
-                    <div class="empty-icon">📝</div>
-                    <h2>No tasks yet</h2>
-                    <p>All caught up! Add a new task to stay organized.</p>
-                    <a href="/add" class="btn btn-primary">+ Add New Task</a>
+                <div class="empty-box">
+                    <p class="empty-title">Nothing on your list yet</p>
+                    <p class="empty-copy">Add a task to keep track of what matters today.</p>
+                    <a href="/add" class="btn btn-primary">Add a task</a>
                 </div>
             <% } %>
         </div>
-    </div>
+    </main>
 </body>
 </html>

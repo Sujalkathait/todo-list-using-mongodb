@@ -25,7 +25,7 @@ function render_navbar(locals = {}) {
         if (s !== undefined && s !== null) __output += s;
     }
     const { tasks = [], task = null } = locals;
-        ; __append("<nav class=\"navbar\">\n    <div class=\"navbar-container\">\n        <a href=\"/\" class=\"navbar-brand\">\n            <span class=\"brand-icon\">✓</span> TodoApp\n        </a>\n        <div class=\"navbar-menu\">\n            <a href=\"/\" class=\"nav-link\">All Tasks</a>\n            <a href=\"/add\" class=\"nav-btn-add\">+ New Task</a>\n        </div>\n    </div>\n</nav>\n")
+        ; __append("<header class=\"topbar\">\n    <div class=\"topbar-inner\">\n        <a href=\"/\" class=\"brand\">\n            <span class=\"brand-mark\" aria-hidden=\"true\">\n                <svg width=\"14\" height=\"14\" viewBox=\"0 0 16 16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n                    <path d=\"M3.5 8.5L6.5 11.5L12.5 4.5\"/>\n                </svg>\n            </span>\n            <span>Dozy</span>\n        </a>\n        <nav class=\"topbar-nav\" aria-label=\"Primary\">\n            <a href=\"/\" class=\"nav-item\">Tasks</a>\n            <a href=\"/add\" class=\"btn btn-primary btn-sm\">\n                <svg width=\"14\" height=\"14\" viewBox=\"0 0 16 16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" aria-hidden=\"true\">\n                    <path d=\"M8 3.5v9M3.5 8h9\"/>\n                </svg>\n                <span>New task</span>\n            </a>\n        </nav>\n    </div>\n</header>\n")
 
     return __output;
 }
@@ -36,55 +36,67 @@ function render_list(locals = {}) {
         if (s !== undefined && s !== null) __output += s;
     }
     const { tasks = [], task = null } = locals;
-        ; __append("<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>My Tasks - TodoApp</title>\n    <link rel=\"stylesheet\" href=\"/style.css?v=3\">\n</head>\n<body>\n    ")
+        ; __append("<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Tasks — Dozy</title>\n    <link rel=\"stylesheet\" href=\"/style.css?v=4\">\n</head>\n<body>\n    ")
     ; __append( include('navbar') )
-    ; __append("\n\n    <div class=\"main-wrapper\">\n        <div class=\"container\">\n            <!-- Header Section -->\n            <div class=\"header-section\">\n                <div>\n                    <h1 class=\"page-title\">My Tasks</h1>\n                    <p class=\"page-subtitle\">")
-    ; __append(escapeFn( tasks.length ))
-    ; __append(" ")
-    ; __append(escapeFn( tasks.length === 1 ? 'task' : 'tasks' ))
-    ; __append(" in total</p>\n                </div>\n                <a href=\"/add\" class=\"btn btn-primary\">+ New Task</a>\n            </div>\n\n            <!-- Task List -->\n            ")
+    ; __append("\n\n    <main class=\"page\">\n        <div class=\"container\">\n            <div class=\"page-head\">\n                <div>\n                    <h1 class=\"page-title\">Tasks</h1>\n                    <p class=\"page-meta\">\n                        ")
+    ;  const openCount = tasks.filter(t => !t.completed).length; 
+    ; __append("\n                        ")
+    ;  const doneCount = tasks.length - openCount; 
+    ; __append("\n                        <span>")
+    ; __append(escapeFn( openCount ))
+    ; __append(" open</span>\n                        ")
+    ;  if (doneCount > 0) { 
+    ; __append("\n                            <span class=\"dot\" aria-hidden=\"true\">·</span>\n                            <span>")
+    ; __append(escapeFn( doneCount ))
+    ; __append(" done</span>\n                        ")
+    ;  } 
+    ; __append("\n                    </p>\n                </div>\n            </div>\n\n            ")
     ;  if (tasks && tasks.length > 0) { 
     ; __append("\n                <ul class=\"task-list\">\n                    ")
     ;  tasks.forEach(item => { 
-    ; __append("\n                        <li class=\"task-card ")
-    ; __append(escapeFn( item.completed ? 'task-done' : '' ))
-    ; __append("\">\n                            <!-- Left: Checkbox -->\n                            <a href=\"/toggle/")
+    ; __append("\n                        <li class=\"task-row ")
+    ; __append(escapeFn( item.completed ? 'is-done' : '' ))
+    ; __append("\">\n                            <a href=\"/toggle/")
     ; __append(escapeFn( item._id ))
-    ; __append("\" class=\"checkbox-circle ")
-    ; __append(escapeFn( item.completed ? 'checked' : '' ))
-    ; __append("\" title=\"Toggle complete\">\n                                ")
+    ; __append("\" class=\"check-btn ")
+    ; __append(escapeFn( item.completed ? 'is-checked' : '' ))
+    ; __append("\" aria-label=\"")
+    ; __append(escapeFn( item.completed ? 'Mark as incomplete' : 'Mark as complete' ))
+    ; __append("\">\n                                ")
     ;  if (item.completed) { 
-    ; __append("\n                                    <span>✓</span>\n                                ")
+    ; __append("\n                                    <svg width=\"12\" height=\"12\" viewBox=\"0 0 16 16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                                        <path d=\"M3.5 8.5L6.5 11.5L12.5 4.5\"/>\n                                    </svg>\n                                ")
     ;  } 
-    ; __append("\n                            </a>\n\n                            <!-- Middle: Task Details -->\n                            <div class=\"task-info\">\n                                <h3 class=\"task-title\">")
+    ; __append("\n                            </a>\n\n                            <div class=\"task-content\">\n                                <div class=\"task-title\">")
     ; __append(escapeFn( item.task ))
-    ; __append("</h3>\n                                ")
+    ; __append("</div>\n                                ")
     ;  if (item.description && item.description.trim() !== '') { 
-    ; __append("\n                                    <p class=\"task-desc\">")
+    ; __append("\n                                    <p class=\"task-notes\">")
     ; __append(escapeFn( item.description ))
     ; __append("</p>\n                                ")
     ;  } 
-    ; __append("\n                                <div class=\"task-meta\">\n                                    ")
+    ; __append("\n                                ")
     ;  if (item.createdAt) { 
-    ; __append("\n                                        <span class=\"meta-time\">\n                                            🕒 ")
+    ; __append("\n                                    <div class=\"task-footer\">\n                                        <time class=\"task-date\" datetime=\"")
+    ; __append(escapeFn( new Date(item.createdAt).toISOString() ))
+    ; __append("\">\n                                            ")
     ; __append(escapeFn( new Date(item.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) ))
-    ; __append("\n                                        </span>\n                                    ")
-    ;  } 
-    ; __append("\n                                    ")
+    ; __append("\n                                        </time>\n                                        ")
     ;  if (item.completed) { 
-    ; __append("\n                                        <span class=\"badge-done\">Completed</span>\n                                    ")
+    ; __append("\n                                            <span class=\"status-tag\">Done</span>\n                                        ")
     ;  } 
-    ; __append("\n                                </div>\n                            </div>\n\n                            <!-- Right: Actions -->\n                            <div class=\"task-actions\">\n                                <a href=\"/update/")
+    ; __append("\n                                    </div>\n                                ")
+    ;  } 
+    ; __append("\n                            </div>\n\n                            <div class=\"row-actions\">\n                                <a href=\"/update/")
     ; __append(escapeFn( item._id ))
-    ; __append("\" class=\"action-btn edit-btn\" title=\"Edit Task\">✏️</a>\n                                <a href=\"/delete/")
+    ; __append("\" class=\"icon-btn\" aria-label=\"Edit task\" title=\"Edit\">\n                                    <svg width=\"15\" height=\"15\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                                        <path d=\"M12 20h9\"/>\n                                        <path d=\"M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19l-4 1 1-4L16.5 3.5z\"/>\n                                    </svg>\n                                </a>\n                                <a href=\"/delete/")
     ; __append(escapeFn( item._id ))
-    ; __append("\" class=\"action-btn delete-btn\" onclick=\"return confirm('Are you sure you want to delete this task?')\" title=\"Delete Task\">🗑️</a>\n                            </div>\n                        </li>\n                    ")
+    ; __append("\" class=\"icon-btn icon-btn-danger\" onclick=\"return confirm('Delete this task?')\" aria-label=\"Delete task\" title=\"Delete\">\n                                    <svg width=\"15\" height=\"15\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                                        <path d=\"M3 6h18\"/>\n                                        <path d=\"M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2\"/>\n                                        <path d=\"M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6\"/>\n                                    </svg>\n                                </a>\n                            </div>\n                        </li>\n                    ")
     ;  }) 
     ; __append("\n                </ul>\n            ")
     ;  } else { 
-    ; __append("\n                <div class=\"empty-state\">\n                    <div class=\"empty-icon\">📝</div>\n                    <h2>No tasks yet</h2>\n                    <p>All caught up! Add a new task to stay organized.</p>\n                    <a href=\"/add\" class=\"btn btn-primary\">+ Add New Task</a>\n                </div>\n            ")
+    ; __append("\n                <div class=\"empty-box\">\n                    <p class=\"empty-title\">Nothing on your list yet</p>\n                    <p class=\"empty-copy\">Add a task to keep track of what matters today.</p>\n                    <a href=\"/add\" class=\"btn btn-primary\">Add a task</a>\n                </div>\n            ")
     ;  } 
-    ; __append("\n        </div>\n    </div>\n</body>\n</html>\n")
+    ; __append("\n        </div>\n    </main>\n</body>\n</html>\n")
 
     return __output;
 }
@@ -95,9 +107,9 @@ function render_add(locals = {}) {
         if (s !== undefined && s !== null) __output += s;
     }
     const { tasks = [], task = null } = locals;
-        ; __append("<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Add Task - TodoApp</title>\n    <link rel=\"stylesheet\" href=\"/style.css?v=3\">\n</head>\n<body>\n    ")
+        ; __append("<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>New Task — Dozy</title>\n    <link rel=\"stylesheet\" href=\"/style.css?v=4\">\n</head>\n<body>\n    ")
     ; __append( include('navbar') )
-    ; __append("\n\n    <div class=\"main-wrapper\">\n        <div class=\"container\">\n            <div class=\"form-card\">\n                <a href=\"/\" class=\"back-link\">← Back to Tasks</a>\n                <h1 class=\"form-title\">Add a New Task</h1>\n                <p class=\"form-subtitle\">What would you like to get done?</p>\n\n                <form action=\"/add\" method=\"POST\" class=\"task-form\">\n                    <div class=\"form-group\">\n                        <label for=\"task\">Task Title <span class=\"required\">*</span></label>\n                        <input \n                            type=\"text\" \n                            id=\"task\" \n                            name=\"task\" \n                            placeholder=\"e.g. Finish science assignment\" \n                            required \n                            autofocus \n                        />\n                    </div>\n\n                    <div class=\"form-group\">\n                        <label for=\"description\">Description / Notes</label>\n                        <textarea \n                            id=\"description\" \n                            name=\"description\" \n                            rows=\"4\" \n                            placeholder=\"Add extra details, notes, or links...\"\n                        ></textarea>\n                    </div>\n\n                    <div class=\"form-actions\">\n                        <a href=\"/\" class=\"btn btn-secondary\">Cancel</a>\n                        <button type=\"submit\" class=\"btn btn-primary\">Create Task</button>\n                    </div>\n                </form>\n            </div>\n        </div>\n    </div>\n</body>\n</html>\n")
+    ; __append("\n\n    <main class=\"page\">\n        <div class=\"container\">\n            <a href=\"/\" class=\"back-link\">\n                <svg width=\"14\" height=\"14\" viewBox=\"0 0 16 16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                    <path d=\"M10 12.5L5.5 8L10 3.5\"/>\n                </svg>\n                <span>Back to tasks</span>\n            </a>\n\n            <div class=\"panel\">\n                <h1 class=\"panel-title\">New task</h1>\n\n                <form action=\"/add\" method=\"POST\" class=\"form-stack\">\n                    <div class=\"field\">\n                        <label for=\"task\">Title</label>\n                        <input\n                            type=\"text\"\n                            id=\"task\"\n                            name=\"task\"\n                            placeholder=\"Finish science notes\"\n                            required\n                            autofocus\n                        />\n                    </div>\n\n                    <div class=\"field\">\n                        <label for=\"description\">Notes <span class=\"optional\">(optional)</span></label>\n                        <textarea\n                            id=\"description\"\n                            name=\"description\"\n                            rows=\"4\"\n                            placeholder=\"Add details, links, or reminders\"\n                        ></textarea>\n                    </div>\n\n                    <div class=\"form-footer\">\n                        <a href=\"/\" class=\"btn btn-ghost\">Cancel</a>\n                        <button type=\"submit\" class=\"btn btn-primary\">Save task</button>\n                    </div>\n                </form>\n            </div>\n        </div>\n    </main>\n</body>\n</html>\n")
 
     return __output;
 }
@@ -108,15 +120,15 @@ function render_update(locals = {}) {
         if (s !== undefined && s !== null) __output += s;
     }
     const { tasks = [], task = null } = locals;
-        ; __append("<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Edit Task - TodoApp</title>\n    <link rel=\"stylesheet\" href=\"/style.css?v=3\">\n</head>\n<body>\n    ")
+        ; __append("<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Edit Task — Dozy</title>\n    <link rel=\"stylesheet\" href=\"/style.css?v=4\">\n</head>\n<body>\n    ")
     ; __append( include('navbar') )
-    ; __append("\n\n    <div class=\"main-wrapper\">\n        <div class=\"container\">\n            <div class=\"form-card\">\n                <a href=\"/\" class=\"back-link\">← Back to Tasks</a>\n                <h1 class=\"form-title\">Edit Task</h1>\n                <p class=\"form-subtitle\">Update task details or notes.</p>\n\n                <form action=\"/update/")
+    ; __append("\n\n    <main class=\"page\">\n        <div class=\"container\">\n            <a href=\"/\" class=\"back-link\">\n                <svg width=\"14\" height=\"14\" viewBox=\"0 0 16 16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                    <path d=\"M10 12.5L5.5 8L10 3.5\"/>\n                </svg>\n                <span>Back to tasks</span>\n            </a>\n\n            <div class=\"panel\">\n                <h1 class=\"panel-title\">Edit task</h1>\n\n                <form action=\"/update/")
     ; __append(escapeFn( task._id ))
-    ; __append("\" method=\"POST\" class=\"task-form\">\n                    <div class=\"form-group\">\n                        <label for=\"task\">Task Title <span class=\"required\">*</span></label>\n                        <input \n                            type=\"text\" \n                            id=\"task\" \n                            name=\"task\" \n                            value=\"")
+    ; __append("\" method=\"POST\" class=\"form-stack\">\n                    <div class=\"field\">\n                        <label for=\"task\">Title</label>\n                        <input\n                            type=\"text\"\n                            id=\"task\"\n                            name=\"task\"\n                            value=\"")
     ; __append(escapeFn( task.task ))
-    ; __append("\" \n                            required \n                            autofocus \n                        />\n                    </div>\n\n                    <div class=\"form-group\">\n                        <label for=\"description\">Description / Notes</label>\n                        <textarea \n                            id=\"description\" \n                            name=\"description\" \n                            rows=\"4\"\n                        >")
+    ; __append("\"\n                            required\n                            autofocus\n                        />\n                    </div>\n\n                    <div class=\"field\">\n                        <label for=\"description\">Notes <span class=\"optional\">(optional)</span></label>\n                        <textarea\n                            id=\"description\"\n                            name=\"description\"\n                            rows=\"4\"\n                        >")
     ; __append(escapeFn( task.description || '' ))
-    ; __append("</textarea>\n                    </div>\n\n                    <div class=\"form-actions\">\n                        <a href=\"/\" class=\"btn btn-secondary\">Cancel</a>\n                        <button type=\"submit\" class=\"btn btn-primary\">Save Changes</button>\n                    </div>\n                </form>\n            </div>\n        </div>\n    </div>\n</body>\n</html>\n")
+    ; __append("</textarea>\n                    </div>\n\n                    <div class=\"form-footer\">\n                        <a href=\"/\" class=\"btn btn-ghost\">Cancel</a>\n                        <button type=\"submit\" class=\"btn btn-primary\">Save changes</button>\n                    </div>\n                </form>\n            </div>\n        </div>\n    </main>\n</body>\n</html>\n")
 
     return __output;
 }
