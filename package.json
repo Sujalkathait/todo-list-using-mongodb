@@ -6,6 +6,10 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
+    "build:views": "node scripts/build-views.js",
+    "cf:dev": "npm run build:views && wrangler dev",
+    "cf:deploy": "npm run build:views && wrangler deploy",
+    "cf:check": "npm run build:views && wrangler deploy --dry-run",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -24,5 +28,8 @@
     "express": "^5.3.0",
     "mongodb": "^7.9.1",
     "nodemon": "^3.1.14"
+  },
+  "devDependencies": {
+    "wrangler": "^4.168.0"
   }
 }

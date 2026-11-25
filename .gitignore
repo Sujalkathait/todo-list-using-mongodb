@@ -4,7 +4,12 @@ node_modules/
 # Environment and sensitive credentials
 .env
 *.env
+.dev.vars
 atlas-credentials.env
+
+# Cloudflare Wrangler
+.wrangler/
+dist/
 
 # Logs
 npm-debug.log*
